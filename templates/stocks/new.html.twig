@@ -1,11 +1,295 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Stock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<title>New Stocks</title>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #d7ccc8 100%);
+            min-height: 100vh;
+        }
 
-{% block body %}
-    <h1>Create new Stocks</h1>
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-    {{ include('stocks/_form.html.twig') }}
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #6d4c41 0%, #4e342e 100%);
+            padding: 20px;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
 
-    <a href="{{ path('app_stocks_index') }}">back to list</a>
-{% endblock %}
+        .sidebar-header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #8d6e63;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            color: #bcaaa4;
+            font-size: 12px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            color: #efebe9;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: #5d4037;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: #8d6e63;
+            color: #fff;
+        }
+
+        .nav-icon {
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #4e342e;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #8d6e63;
+            font-size: 14px;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #4e342e;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #efebe9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8d6e63;
+        }
+
+        /* Form styling for Symfony forms */
+        form > div {
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            color: #4e342e;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        form input[type="text"],
+        form input[type="number"],
+        form input[type="date"],
+        form input[type="datetime-local"],
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #efebe9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s ease;
+            font-family: inherit;
+        }
+
+        form input:focus,
+        form select:focus,
+        form textarea:focus {
+            outline: none;
+            border-color: #8d6e63;
+        }
+
+        /* Buttons */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #efebe9;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #6d4c41 0%, #5d4037 100%);
+            color: #fff;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(109, 76, 65, 0.3);
+        }
+
+        .btn-back {
+            background: #efebe9;
+            color: #4e342e;
+        }
+
+        .btn-back:hover {
+            background: #d7ccc8;
+        }
+
+        /* Override Symfony form button */
+        form button[type="submit"],
+        form input[type="submit"] {
+            background: linear-gradient(135deg, #6d4c41 0%, #5d4037 100%);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        form button[type="submit"]:hover,
+        form input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(109, 76, 65, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>☕ Cafe Manager</h2>
+                <p>Management System</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ path('app_dashboard_index') }}" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_products_index') }}" class="nav-link">
+                        <span class="nav-icon">☕</span>
+                        <span>Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_stocks_index') }}" class="nav-link active">
+                        <span class="nav-icon">📦</span>
+                        <span>Stocks</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🧾</span>
+                        <span>Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1>Create New Stock</h1>
+                <p>Add a new stock entry to your inventory</p>
+            </div>
+
+            <div class="form-container">
+                {{ include('stocks/_form.html.twig') }}
+
+                <div class="form-actions">
+                    <a href="{{ path('app_stocks_index') }}" class="btn btn-back">⬅ Back to list</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

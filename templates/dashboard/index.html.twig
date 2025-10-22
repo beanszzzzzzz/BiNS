@@ -150,143 +150,42 @@
             font-weight: bold;
             color: #6d4c41;
         }
-
-        /* Table */
-        .table-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .table-header h2 {
-            color: #4e342e;
-            font-size: 24px;
-        }
-
-        .btn-new {
-            background: linear-gradient(135deg, #6d4c41 0%, #5d4037 100%);
-            color: #fff;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-new:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(109, 76, 65, 0.3);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: #efebe9;
-        }
-
-        th {
-            padding: 15px;
-            text-align: left;
-            color: #4e342e;
-            font-weight: 600;
-            border-bottom: 2px solid #d7ccc8;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid #efebe9;
-            transition: background 0.2s ease;
-        }
-
-        tbody tr:hover {
-            background: #fafafa;
-        }
-
-        td {
-            padding: 15px;
-            color: #6d4c41;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #8d6e63;
-        }
-
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .action-links {
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-links a {
-            color: #6d4c41;
-            text-decoration: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            transition: all 0.2s ease;
-            font-size: 14px;
-        }
-
-        .action-links a:hover {
-            background: #efebe9;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-  <!-- Sidebar -->
-<aside class="sidebar">
-    <div class="sidebar-header">
-        <h2>☕ Cafe Manager</h2>
-        <p>Management System</p>
-    </div>
-    <ul class="nav-menu">
-        <li class="nav-item">
-            <a href="{{ path('app_dashboard_index') }}" class="nav-link">
-                <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ path('app_products_index') }}" class="nav-link">
-                <span class="nav-icon">☕</span>
-                <span>Products</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ path('app_stocks_index') }}" class="nav-link">
-              <span class="nav-icon">📦</span>
-              <span>Stocks</span>
-           </a>
-       </li>
-
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <span class="nav-icon">🧾</span>
-                <span>Orders</span>
-            </a>
-        </li>
-    </ul>
-</aside>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>☕ Cafe Manager</h2>
+                <p>Management System</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ path('app_dashboard_index') }}" class="nav-link active">
+                        <span class="nav-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_products_index') }}" class="nav-link">
+                        <span class="nav-icon">☕</span>
+                        <span>Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_stocks_index') }}" class="nav-link">
+                        <span class="nav-icon">📦</span>
+                        <span>Stocks</span>
+                    </a>
+                <li class="nav-item">
+                    <a href="{{ path('app_orders_index') }}" class="nav-link">
+                      <span class="nav-icon">🧾</span>
+                      <span>Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -297,39 +196,22 @@
 
             <!-- Dashboard Cards -->
             <div class="dashboard-cards">
-                <div class="card products">
+                <div class="card products" onclick="window.location='{{ path('app_products_index') }}'">
                     <div class="card-icon">☕</div>
                     <h3>Products</h3>
                     <div class="number">-</div>
                 </div>
-                <div class="card stocks">
+                <div class="card stocks" onclick="window.location='{{ path('app_stocks_index') }}'">
                     <div class="card-icon">📦</div>
                     <h3>Stocks</h3>
                     <div class="number">-</div>
                 </div>
-                <div class="card orders">
-                    <div class="card-icon">🧾</div>
-                    <h3>Orders</h3>
-                    <div class="number">-</div>
-                </div>
-            </div>
-
-    <script>
-        // Add click handlers for navigation
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            });
-        });
-
-        // Add click handlers for cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                const cardType = card.classList[1];
-                console.log(`Navigating to ${cardType}...`);
-            });
-        });
-    </script>
+           <div class="card orders" onclick="window.location='{{ path('app_orders_index') }}'">
+    <div class="card-icon">🧾</div>
+    <h3>Orders</h3>
+    <div class="number">-</div>
+</div>
+        </main>
+    </div>
 </body>
 </html>
