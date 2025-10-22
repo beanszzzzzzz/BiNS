@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password]
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-}
+      MYSQL_USER: ${MYSQL_USER:-bins}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-secure_password}
+    ports:
+      - "3306:3306"   # Change host port to avoid conflict
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - vince_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: ${PMA_HOST:-mysql]
+      PMA_USER: ${PMA_USER:-root}
+      PMA_PASSWORD: ${PMA_PASSWORD:-root_password}
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - vince_network
+
+volumes:
+  mysql_data:
+
+networks:
+  vince_network:
+    driver: bridge

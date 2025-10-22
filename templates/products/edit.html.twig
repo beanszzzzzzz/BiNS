@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #d7ccc8 100%);
+            min-height: 100vh;
+        }
+        .container { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #6d4c41 0%, #4e342e 100%);
+            padding: 20px;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar-header { text-align: center; padding: 20px 0; border-bottom: 2px solid #8d6e63; margin-bottom: 30px; }
+        .sidebar-header h2 { color: #fff; font-size: 24px; }
+        .sidebar-header p { color: #bcaaa4; font-size: 12px; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 10px; }
+        .nav-link {
+            display: flex; align-items: center; padding: 15px;
+            color: #efebe9; text-decoration: none; border-radius: 8px; transition: all 0.3s ease;
+        }
+        .nav-link:hover { background: #5d4037; transform: translateX(5px); }
+        .nav-icon { margin-right: 15px; font-size: 20px; }
+        .main-content { flex: 1; padding: 40px; }
+        .header {
+            background: #fff; padding: 25px 30px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px;
+        }
+        .header h1 { color: #4e342e; font-size: 32px; margin-bottom: 5px; }
+        .product-card {
+            background: #fff; padding: 40px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        form {
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        input, textarea, select {
+            padding: 12px; border: 1px solid #ccc; border-radius: 8px; width: 100%;
+            font-size: 14px; outline: none;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: #6d4c41; box-shadow: 0 0 4px rgba(109, 76, 65, 0.3);
+        }
+        .btn {
+            display: inline-block; padding: 12px 25px; border-radius: 8px;
+            text-decoration: none; font-size: 14px; transition: all 0.3s ease;
+        }
+        .btn-back { background: #efebe9; color: #4e342e; margin-right: 10px; }
+        .btn-back:hover { background: #d7ccc8; }
+        .btn-update {
+            background: linear-gradient(135deg, #6d4c41 0%, #5d4037 100%);
+            color: #fff; border: none; cursor: pointer;
+        }
+        .btn-update:hover {
+            transform: translateY(-2px); box-shadow: 0 4px 15px rgba(109, 76, 65, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>☕ Cafe Manager</h2>
+                <p>Management System</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{{ path('app_dashboard_index') }}" class="nav-link"><span class="nav-icon">📊</span><span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="{{ path('app_products_index') }}" class="nav-link"><span class="nav-icon">☕</span><span>Products</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-icon">📦</span><span>Stocks</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span class="nav-icon">🧾</span><span>Orders</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h1>Edit Product</h1>
+                <p>Update the details of this product below.</p>
+            </div>
+
+            <div class="product-card">
+                {{ include('products/_form.html.twig', {'button_label': 'Update'}) }}
+
+                <div style="margin-top: 20px;">
+                    <a href="{{ path('app_products_index') }}" class="btn btn-back">⬅ Back to list</a>
+                    {{ include('products/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

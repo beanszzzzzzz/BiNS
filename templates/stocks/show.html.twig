@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<title>Stocks</title>
+
+{% block body %}
+    <h1>Stocks</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ stock.id }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ stock.quantity }}</td>
+            </tr>
+            <tr>
+                <th>DateAdded</th>
+                <td>{{ stock.dateAdded ? stock.dateAdded|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_stocks_index') }}">back to list</a>
+
+    <a href="{{ path('app_stocks_edit', {'id': stock.id}) }}">edit</a>
+
+    {{ include('stocks/_delete_form.html.twig') }}
+{% endblock %}
