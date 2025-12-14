@@ -1,0 +1,59 @@
+﻿{% extends "base.html.twig" %}
+
+{% block title %}BiNS Cafe - Login{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow mt-5">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0"><i class="fas fa-coffee me-2"></i>BiNS Cafe Login</h4>
+                </div>
+                <div class="card-body p-4">
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            {{ error.messageKey|trans(error.messageData, "security") }}
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input type="email" 
+                                   name="email" 
+                                   class="form-control" 
+                                   value="{{ last_username }}" 
+                                   placeholder="admin@bins.cafe"
+                                   required 
+                                   autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label>Password</label>
+                            <input type="password" 
+                                   name="password" 
+                                   class="form-control" 
+                                   placeholder="password"
+                                   required>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token("authenticate") }}">
+                        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                    </form>
+
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <p class="text-muted mb-2">Demo Accounts:</p>
+                        <div class="alert alert-info p-2 mb-2">
+                            <small><strong>Admin:</strong> admin@bins.cafe / password</small>
+                        </div>
+                        <div class="alert alert-info p-2">
+                            <small><strong>Staff:</strong> staff@bins.cafe / password</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

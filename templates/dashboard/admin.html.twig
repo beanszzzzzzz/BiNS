@@ -1,0 +1,297 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BiNS Cafe - Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4">
+    <!-- Page Header -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-crown text-warning me-2"></i>Admin Dashboard
+            </h1>
+            <p class="text-muted mt-1">Welcome back, Administrator!</p>
+        </div>
+        <div class="text-end">
+            <span class="badge bg-warning text-dark">
+                <i class="fas fa-user-shield me-1"></i>Admin Access
+            </span>
+            <span class="badge bg-dark ms-2">
+                <i class="fas fa-calendar me-1"></i>{{ "now"|date("F j, Y") }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <!-- Total Users -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-primary text-uppercase mb-1">
+                                Total Users
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ totalUsers|default(0) }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <a href="{{ path('admin_users_index') }}" class="small text-decoration-none">
+                            Manage Users <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Orders -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">
+                                Today's Orders
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ todaysOrders|default(0) }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <a href="{{ path('orders_index') }}" class="small text-decoration-none">
+                            View Orders <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Orders -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">
+                                Pending Orders
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ pendingOrders|default(0) }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <a href="{{ path('orders_index', {status: 'pending'}) }}" class="small text-decoration-none">
+                            Process Now <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Revenue -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">
+                                Today's Revenue
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">₱{{ todaysRevenue|default('0.00')|number_format(2) }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-peso-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <a href="{{ path('admin_reports') }}" class="small text-decoration-none">
+                            View Reports <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">
+                        <i class="fas fa-bolt me-2"></i>Admin Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- User Management -->
+                        <div class="col-md-3 col-6">
+                            <a href="{{ path('admin_users_index') }}" class="btn btn-primary w-100">
+                                <i class="fas fa-users me-2"></i>Manage Users
+                            </a>
+                        </div>
+                        
+                        <!-- Create User -->
+                        <div class="col-md-3 col-6">
+                            <a href="{{ path('admin_users_new') }}" class="btn btn-success w-100">
+                                <i class="fas fa-user-plus me-2"></i>Add User
+                            </a>
+                        </div>
+                        
+                        <!-- View Reports -->
+                        <div class="col-md-3 col-6">
+                            <a href="{{ path('admin_reports') }}" class="btn btn-info w-100">
+                                <i class="fas fa-chart-bar me-2"></i>View Reports
+                            </a>
+                        </div>
+                        
+                        <!-- System Settings -->
+                        <div class="col-md-3 col-6">
+                            <a href="{{ path('admin_settings') }}" class="btn btn-secondary w-100">
+                                <i class="fas fa-cog me-2"></i>Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="row">
+        <!-- Recent Orders -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 fw-bold text-primary">
+                        <i class="fas fa-receipt me-2"></i>Recent Orders
+                    </h6>
+                    <a href="{{ path('orders_index') }}" class="btn btn-sm btn-outline-primary">
+                        View All <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if recentOrders|default([]) is not empty %}
+                                    {% for order in recentOrders %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('orders_show', {id: order.id}) }}" class="text-decoration-none">
+                                                    #{{ order.id }}
+                                                </a>
+                                            </td>
+                                            <td>{{ order.customerName|default('Walk-in') }}</td>
+                                            <td>{{ order.itemCount|default(0) }} items</td>
+                                            <td>₱{{ order.total|default('0.00')|number_format(2) }}</td>
+                                            <td>
+                                                <span class="badge bg-{{ order.status == 'completed' ? 'success' : 'warning' }}">
+                                                    {{ order.status|default('pending')|title }}
+                                                </span>
+                                            </td>
+                                            <td>{{ order.createdAt|default('')|date('h:i A') }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <div class="text-muted">
+                                                <i class="fas fa-inbox fa-2x mb-3"></i>
+                                                <p>No recent orders found</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">
+                        <i class="fas fa-server me-2"></i>System Status
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Database</span>
+                            <span class="badge bg-success">Online</span>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Active Users</span>
+                            <span class="badge bg-info">{{ activeUsers|default(1) }}</span>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-info" style="width: 30%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>System Load</span>
+                            <span class="badge bg-success">Low</span>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Quick Info -->
+                    <div class="mt-3">
+                        <h6 class="fw-bold mb-3">
+                            <i class="fas fa-info-circle me-2"></i>Quick Info
+                        </h6>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>Total Products</span>
+                                <span class="badge bg-primary">{{ totalProducts|default(0) }}</span>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>Low Stock Items</span>
+                                <span class="badge bg-warning">{{ lowStockItems|default(0) }}</span>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>Today's Customers</span>
+                                <span class="badge bg-success">{{ todaysCustomers|default(0) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

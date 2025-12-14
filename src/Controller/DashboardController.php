@@ -2,80 +2,90 @@
 
 namespace App\Controller;
 
-use App\Entity\Dashboard;
-use App\Form\DashboardType;
-use App\Repository\DashboardRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Doctrine\ORM\EntityManagerInterface;
 
-#[Route('/dashboard')]
-final class DashboardController extends AbstractController
+class DashboardController extends AbstractController
 {
-    #[Route(name: 'app_dashboard_index', methods: ['GET'])]
-    public function index(DashboardRepository $dashboardRepository): Response
+    #[Route('/dashboard', name: 'app_dashboard')]
+    #[IsGranted('ROLE_USER')]
+    public function index(): Response
     {
-        return $this->render('dashboard/index.html.twig', [
-            'dashboards' => $dashboardRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_dashboard_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $dashboard = new Dashboard();
-        $form = $this->createForm(DashboardType::class, $dashboard);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($dashboard);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_dashboard_index', [], Response::HTTP_SEE_OTHER);
+        $user = $this->getUser();
+        
+        // Redirect based on role
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('admin_dashboard');
+        } else {
+            // All other roles (STAFF, etc.) go to staff dashboard
+            return $this->redirectToRoute('staff_dashboard');
         }
+    }
 
-        return $this->render('dashboard/new.html.twig', [
-            'dashboard' => $dashboard,
-            'form' => $form,
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function adminDashboard(EntityManagerInterface $em): Response
+    {
+        // Get statistics for admin dashboard
+        $totalUsers = $em->getRepository('App\Entity\User')->count([]);
+        // Add more statistics as needed
+        
+        return $this->render('dashboard/admin.html.twig', [
+            'totalUsers' => $totalUsers,
+            'todaysOrders' => 0, // Add your logic
+            'pendingOrders' => 0, // Add your logic
+            'todaysRevenue' => '0.00', // Add your logic
+            'activeUsers' => 1, // Add your logic
+            'totalProducts' => 0, // Add your logic
+            'lowStockItems' => 0, // Add your logic
+            'todaysCustomers' => 0, // Add your logic
+            'recentOrders' => [], // Add your logic
         ]);
     }
 
-    #[Route('/{id}', name: 'app_dashboard_show', methods: ['GET'])]
-    public function show(Dashboard $dashboard): Response
+    #[Route('/staff/dashboard', name: 'staff_dashboard')]
+    #[IsGranted('ROLE_STAFF')]
+    public function staffDashboard(): Response
     {
-        return $this->render('dashboard/show.html.twig', [
-            'dashboard' => $dashboard,
+        // Sample data for staff dashboard
+        $todaysTasks = [
+            [
+                'description' => 'Check morning inventory',
+                'completed' => true,
+                'time' => '8:00 AM',
+                'priority' => 'high'
+            ],
+            [
+                'description' => 'Prepare coffee station',
+                'completed' => true,
+                'time' => '8:30 AM',
+                'priority' => 'medium'
+            ],
+            [
+                'description' => 'Update menu board',
+                'completed' => false,
+                'time' => '10:00 AM',
+                'priority' => 'medium'
+            ],
+            [
+                'description' => 'Clean tables',
+                'completed' => false,
+                'time' => '2:00 PM',
+                'priority' => 'low'
+            ],
+        ];
+        
+        return $this->render('dashboard/staff.html.twig', [
+            'ordersHandled' => 0, // Add your logic
+            'totalSales' => '0.00', // Add your logic
+            'pendingOrders' => 0, // Add your logic
+            'tablesServed' => 0, // Add your logic
+            'activeOrderCount' => 0, // Add your logic
+            'activeOrders' => [], // Add your logic
+            'todaysTasks' => $todaysTasks,
         ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Dashboard $dashboard, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(DashboardType::class, $dashboard);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_dashboard_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('dashboard/edit.html.twig', [
-            'dashboard' => $dashboard,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_dashboard_delete', methods: ['POST'])]
-    public function delete(Request $request, Dashboard $dashboard, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$dashboard->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($dashboard);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_dashboard_index', [], Response::HTTP_SEE_OTHER);
     }
 }

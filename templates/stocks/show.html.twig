@@ -205,31 +205,31 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>☕ Cafe Manager</h2>
+                <h2>BiNS Cafe Manager</h2>
                 <p>Management System</p>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="{{ path('app_dashboard_index') }}" class="nav-link">
-                        <span class="nav-icon">📊</span>
+                        <span class="nav-icon"></span>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ path('app_products_index') }}" class="nav-link">
-                        <span class="nav-icon">☕</span>
+                        <span class="nav-icon"></span>
                         <span>Products</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ path('app_stocks_index') }}" class="nav-link active">
-                        <span class="nav-icon">📦</span>
+                        <span class="nav-icon"></span>
                         <span>Stocks</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <span class="nav-icon">🧾</span>
+                        <span class="nav-icon"></span>
                         <span>Orders</span>
                     </a>
                 </li>
@@ -247,15 +247,15 @@
                 <table class="details-table">
                     <tbody>
                         <tr>
-                            <th>📋 ID</th>
+                            <th> ID</th>
                             <td>{{ stock.id }}</td>
                         </tr>
                         <tr>
-                            <th>📦 Quantity</th>
+                            <th> Quantity</th>
                             <td>{{ stock.quantity }}</td>
                         </tr>
                         <tr>
-                            <th>📅 Date Added</th>
+                            <th> Date Added</th>
                             <td>{{ stock.dateAdded ? stock.dateAdded|date('Y-m-d H:i:s') : 'N/A' }}</td>
                         </tr>
                     </tbody>
